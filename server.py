@@ -8,17 +8,17 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/team', methods=['PUT','GET'])
+@app.route('/teams', methods=['PUT','GET'])
 def displayteam():
     if request.method=='GET':
         return jsonify(teams)
 
-@app.route('/team/<int:id>', methods=['PUT','GET'])
+@app.route('/teams/<int:id>', methods=['PUT','GET','DELETE'])
 def addtoteam(id):
     newcity = request.args.get('city')
     if request.method=='GET':
         for team in teams:
-            if team['id']==id:
+            if team['id']==id:gua
                 return jsonify(team)
     if request.method=='PUT':
         if newcity:
@@ -34,14 +34,14 @@ def addtoteam(id):
         return None
 
 
-@app.route('/player',methods=['PUT','GET'])
+@app.route('/players',methods=['PUT','GET'])
 def displayplayer():
     if request.method=='GET':
         return jsonify(players)
     if request.method=='PUT':
         return None
 
-@app.route('/player/<int:id>',methods=['PUT','GET'])
+@app.route('/players/<int:id>',methods=['PUT','GET','POST'])
 def addtoplayer(id):
     newplayer = request.args.get('name')
     if request.method=='GET':
@@ -56,6 +56,17 @@ def addtoplayer(id):
     if request.method=='POST':
         return None
 
+@app.route('/games',methods=['PUT','GET','POST'])
+def displaygame():
+    if request.method=='GET':
+        return jsonify(games)
+
+@app.route('/games/<int:id>',methods=['PUT','GET','POST'])
+def addtogame():
+    if request.method=='GET':
+        for player in players:
+            if player['id']==id:
+                return jsonify(player)
 
 class Team:
     def __init__(self,id,name,city,fullname,abbrev):
@@ -128,12 +139,15 @@ games_list=jsondata['Games']
 print("GAMES LIST", games_list)
 teams = []
 players=[]
+games=[]
 for team in teams_list:
     teams.append(Team(team['id'],team['name'],team['city'],team['full_name'],team['abbrev']).__dict__)
 
 for player in players_list:
     players.append(Player(player['id'],player['name'],player['team_id']).__dict__)
 
+for game in games_list:
+    games.append(Game(game['id'],game['home_team_id'],game['away_team_id'],game['date']))
 
 
 if __name__ == '__main__':
