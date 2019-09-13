@@ -29,7 +29,7 @@ def addtoteam(id):
         for team in teams:
             if team['id']==id:
                 teams.remove(team)
-                return jsonify(teams)
+        return jsonify(teams)
     if request.method=='POST':
         return None
 
@@ -41,7 +41,7 @@ def displayplayer():
     if request.method=='PUT':
         return None
 
-@app.route('/players/<int:id>',methods=['PUT','GET','POST'])
+@app.route('/players/<int:id>',methods=['PUT','GET','DELETE'])
 def addtoplayer(id):
     newplayer = request.args.get('name')
     if request.method=='GET':
@@ -53,8 +53,12 @@ def addtoplayer(id):
             for player in players:
                 player['name']=newplayer
                 return jsonify(player)
-    if request.method=='POST':
-        return None
+    if request.method=='DELETE':
+        for player in players:
+            if player['id']==id:
+                players.remove(player)
+        return jsonify(players)
+
 
 @app.route('/games',methods=['PUT','GET','POST'])
 def displaygame():
@@ -73,7 +77,7 @@ def addtogame(id):
         for game in games:
             if game['id']==id:
                 games.remove(game)
-                return jsonify(games)
+        return jsonify(games)
 
 class Team:
     def __init__(self,id,name,city,fullname,abbrev):
