@@ -84,6 +84,10 @@ def displaygamestats():
     if request.method=='GET':
         return jsonify(player_stats)
 
+@app.route('/game_state',methods=['GET','DELETE'])
+def displaygamestate():
+    if request.method=='GET':
+        return jsonify(game_state)
 
 class Team:
     def __init__(self,id,name,city,fullname,abbrev):
@@ -174,6 +178,9 @@ for game in games_list:
 
 for stats in player_stats_list:
     player_stats.append(Player_Stats(stats['id'],stats['game_id'],stats['player_id'],stats['team_id'],stats['points'],stats['assists'],stats['rebounds'],stats['nerd']).__dict__)
+
+for state in game_state_list:
+    game_state.append(Game_State(state['id'],state['game_id'],state['home_team_score'],state['away_team_score'],state['broadcast'],state['quarter'],state['time_left_in_quarter'],state['game_status']).__dict__)
 
 
 if __name__ == '__main__':
