@@ -18,7 +18,7 @@ def addtoteam(id):
     newcity = request.args.get('city')
     if request.method=='GET':
         for team in teams:
-            if team['id']==id:gua
+            if team['id']==id:
                 return jsonify(team)
     if request.method=='PUT':
         if newcity:
@@ -61,12 +61,19 @@ def displaygame():
     if request.method=='GET':
         return jsonify(games)
 
-@app.route('/games/<int:id>',methods=['PUT','GET','POST'])
-def addtogame():
+@app.route('/games/<int:id>',methods=['PUT','GET','DELETE'])
+def addtogame(id):
     if request.method=='GET':
         for player in players:
             if player['id']==id:
                 return jsonify(player)
+    if request.method=="PUT":
+        return None
+    if request.method=="DELETE":
+        for game in games:
+            if game['id']==id:
+                games.remove(game)
+                return jsonify(games)
 
 class Team:
     def __init__(self,id,name,city,fullname,abbrev):
@@ -147,7 +154,7 @@ for player in players_list:
     players.append(Player(player['id'],player['name'],player['team_id']).__dict__)
 
 for game in games_list:
-    games.append(Game(game['id'],game['home_team_id'],game['away_team_id'],game['date']))
+    games.append(Game(game['id'],game['home_team_id'],game['away_team_id'],game['date']).__dict__)
 
 
 if __name__ == '__main__':
