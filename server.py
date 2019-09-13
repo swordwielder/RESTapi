@@ -79,6 +79,12 @@ def addtogame(id):
                 games.remove(game)
         return jsonify(games)
 
+@app.route('/player_stats',methods=['GET','DELETE'])
+def displaygamestats():
+    if request.method=='GET':
+        return jsonify(player_stats)
+
+
 class Team:
     def __init__(self,id,name,city,fullname,abbrev):
         self.id=id
@@ -146,11 +152,17 @@ jsondata = json.loads(data)
 teams_list=jsondata['Teams']
 players_list=jsondata['Players']
 games_list=jsondata['Games']
+player_stats_list=jsondata['Player_Stats']
+game_state_list=jsondata['Game_State']
 
 print("GAMES LIST", games_list)
+
 teams = []
 players=[]
 games=[]
+player_stats=[]
+game_state=[]
+
 for team in teams_list:
     teams.append(Team(team['id'],team['name'],team['city'],team['full_name'],team['abbrev']).__dict__)
 
@@ -159,6 +171,9 @@ for player in players_list:
 
 for game in games_list:
     games.append(Game(game['id'],game['home_team_id'],game['away_team_id'],game['date']).__dict__)
+
+for stats in player_stats_list:
+    player_stats.append(Player_Stats(stats['id'],stats['game_id'],stats['player_id'],stats['team_id'],stats['points'],stats['assists'],stats['rebounds'],stats['nerd']).__dict__)
 
 
 if __name__ == '__main__':
