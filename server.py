@@ -107,6 +107,11 @@ def addtogamestate(id):
         for state in game_state:
             if state['id']==id:
                 return jsonify((state))
+    if request.method=="DELETE":
+        for state in game_state:
+            if state['id']==id:
+                game_state.remove(state)
+        return jsonify(game_state)
 
 
 
