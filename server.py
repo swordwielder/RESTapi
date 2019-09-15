@@ -80,14 +80,29 @@ def addtogame(id):
         return jsonify(games)
 
 @app.route('/player_stats',methods=['GET','DELETE'])
-def displaygamestats():
+def displayplayerstats():
     if request.method=='GET':
         return jsonify(player_stats)
+
+@app.route('/player_stats/<int:id>',methods=['GET','DELETE'])
+def addtoplayerstats(id):
+    if request.method=='GET':
+        for stats in player_stats:
+            if stats['id']==id:
+                return jsonify(stats)
+    if request.method=='DELETE':
+        for stats in player_stats:
+            if stats['id']==id:
+                player_stats.remove(stats)
+        return jsonify(player_stats)
+
 
 @app.route('/game_state',methods=['GET','DELETE'])
 def displaygamestate():
     if request.method=='GET':
         return jsonify(game_state)
+
+
 
 class Team:
     def __init__(self,id,name,city,fullname,abbrev):
