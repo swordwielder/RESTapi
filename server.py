@@ -96,11 +96,17 @@ def addtoplayerstats(id):
                 player_stats.remove(stats)
         return jsonify(player_stats)
 
-
 @app.route('/game_state',methods=['GET','DELETE'])
 def displaygamestate():
     if request.method=='GET':
         return jsonify(game_state)
+
+@app.route('/game_state/<int:id>',methods=['GET','DELETE'])
+def addtogamestate(id):
+    if request.method=='GET':
+        for state in game_state:
+            if state['id']==id:
+                return jsonify((state))
 
 
 
