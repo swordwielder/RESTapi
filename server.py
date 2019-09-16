@@ -149,6 +149,7 @@ class Game:
         self.id=id
         self.home_team_id=home_team_id
         self.away_team_id=away_team_id
+        self.date=date
 
     def __str__(self):
         return f'{self.id},{self.home_team_id},{self.away_team_id}'
