@@ -101,12 +101,20 @@ def displaygamestate():
     if request.method=='GET':
         return jsonify(game_state)
 
-@app.route('/game_state/<int:id>',methods=['GET','DELETE'])
+@app.route('/game_state/<int:id>',methods=['GET','DELETE','PUT'])
 def addtogamestate(id):
+    newbroadcast = request.args.get('broadcast')
     if request.method=='GET':
         for state in game_state:
             if state['id']==id:
                 return jsonify((state))
+
+    if request.method=='PUT':
+        if newbroadcast:
+            for state in game_state:
+                state['broadcast']=newbroadcast
+                return jsonify(state)
+
     if request.method=="DELETE":
         for state in game_state:
             if state['id']==id:
@@ -211,7 +219,4 @@ for state in game_state_list:
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
 
